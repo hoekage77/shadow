@@ -47,8 +47,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    env_file:
+      - ./backend/.env
     volumes:
-      - ./backend/.env:/app/.env:ro
+      # Mount only the core package for iterative development. Avoid mounting
+      # the whole repo to preserve the image-installed virtualenv and packages.
+      - ./backend/core:/app/core:rw
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
@@ -67,8 +71,10 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     command: uv run python -m core.temporal.worker
+    env_file:
+      - ./backend/.env
     volumes:
-      - ./backend/.env:/app/.env:ro
+      - ./backend/core:/app/core:rw
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379

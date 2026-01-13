@@ -166,6 +166,10 @@ python start.py
 
 That's it! Your Kortix platform will be running with Kortix Super Worker ready to assist you.
 
+## ☁️ Cloud Deployment
+- [Deploy to Railway](docs/RAILWAY_DEPLOYMENT.md)
+- [Deploy to Render](render.yaml)
+
 ## 🏠 Self-Hosting
 
 Just use "setup.py". Ty mate.

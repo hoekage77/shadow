@@ -10,8 +10,9 @@ services:
     env_file:
       - .env
     volumes:
-      - .:/app
-      - /app/.venv
+      # Avoid mounting the project root into /app - that hides files installed
+      # during image build (including the virtualenv). Only mount logs for
+      # local dev to keep runtime image intact.
       - ./logs:/app/logs
     restart: unless-stopped
     depends_on:

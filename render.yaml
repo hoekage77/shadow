@@ -1,0 +1,72 @@
+# Render service configuration for the Suna backend
+# This file provides two service options:
+# 1) Docker-based service (recommended: uses backend/Dockerfile so system deps are available)
+# 2) Python-based service (native build on Render using uv/uvicorn — useful if you don't want Docker)
+
+services:
+  - type: web
+    name: suna-backend-docker
+    env: docker
+    branch: kage
+    dockerfilePath: backend/Dockerfile
+    plan: standard
+    autoDeploy: true
+    envVars:
+      - key: ENV_MODE
+        value: production
+      - key: REDIS_HOST
+        value: redis
+      - key: REDIS_PORT
+        value: "6379"
+      - key: NEXT_PUBLIC_URL
+        value: "https://your-app.onrender.com"
+      - key: TEMPORAL_CLOUD_ADDRESS
+        value: ""
+      - key: TEMPORAL_NAMESPACE
+        value: ""
+      - key: TEMPORAL_API_KEY
+        value: ""
+      - key: SUPABASE_URL
+        value: ""
+      - key: SUPABASE_ANON_KEY
+        value: ""
+      - key: KORTIX_ADMIN_API_KEY
+        value: ""
+
+  - type: web
+    name: suna-backend-python
+    env: python
+    branch: kage
+    plan: standard
+    autoDeploy: false
+    buildCommand: "python -m pip install --upgrade pip && python -m pip install ."
+    startCommand: "uv run uvicorn api:app --host 0.0.0.0 --port $PORT --workers 4 --loop auto --lifespan auto --log-level info --access-logfile - --error-logfile -"
+    envVars:
+      - key: ENV_MODE
+        value: production
+      - key: REDIS_HOST
+        value: redis
+      - key: REDIS_PORT
+        value: "6379"
+      - key: NEXT_PUBLIC_URL
+        value: "https://your-app.onrender.com"
+      - key: TEMPORAL_CLOUD_ADDRESS
+        value: ""
+      - key: TEMPORAL_NAMESPACE
+        value: ""
+      - key: TEMPORAL_API_KEY
+        value: ""
+      - key: SUPABASE_URL
+        value: ""
+      - key: SUPABASE_ANON_KEY
+        value: ""
+      - key: KORTIX_ADMIN_API_KEY
+        value: ""
+
+# Notes:
+# - For production, prefer the Docker service so OS-level dependencies (WeasyPrint, libpango, etc.)
+#   are present via the Dockerfile.
+# - Fill the Temporal and Supabase values in Render's dashboard (do not commit secrets).
+# - The Python-based service uses the uv/uvicorn start command (the "uv" wrapper is used in this repo).
+# - If you want automatic deployments for the Python service, set `autoDeploy: true` and ensure
+#   the build step succeeds on Render (system libs may be missing).
