@@ -4,9 +4,8 @@ version = "1.0"
 description = "platform to build, manage and train AI Agents"
 authors = [{ name = "marko-kraemer", email = "mail@markokraemer.com" }]
 readme = "README.md"
-license = { text = "Apache-2.0" }
+license = "Apache-2.0"
 classifiers = [
-  "License :: OSI Approved :: Apache-2.0 License",
   "Programming Language :: Python :: 3.11",
 ]
 requires-python = ">=3.11"
@@ -108,6 +107,9 @@ repository = "https://github.com/kortix-ai/suna"
 
 [tool.uv]
 package = false
+
+[tool.setuptools]
+packages = ["core", "evals", "supabase"]
 
 [dependency-groups]
 dev = [
