@@ -1,5 +1,7 @@
 # Deploying Suna Backend to Railway
 
+> **Note on Railway Plans:** As of late 2023, Railway no longer offers a permanent free tier for hosting web services (compute). The "Trial" plan is limited and often restricted to databases only after the initial credits expire. To host the Suna backend, you will likely need a **Hobby** plan ($5/mo) or use an alternative like **Render** or **Fly.io** for the compute portion.
+
 This guide walks you through deploying the Suna backend to Railway using the provided `railway.json`.
 
 ## Prerequisites
