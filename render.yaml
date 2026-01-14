@@ -39,11 +39,13 @@ services:
     branch: kage
     plan: standard
     autoDeploy: false
-    buildCommand: "curl -LsSf https://astral.sh/uv/install.sh | sh && source $HOME/.local/bin/env && uv pip install --system ."
-    startCommand: "source $HOME/.local/bin/env && uv run uvicorn api:app --host 0.0.0.0 --port $PORT --workers 4 --loop auto --lifespan auto --log-level info"
+    buildCommand: "curl -LsSf https://astral.sh/uv/install.sh | sh && source $HOME/.local/bin/env && mkdir -p $HOME/.cargo && export CARGO_HOME=$HOME/.cargo && uv pip install --system ."
+    startCommand: "source $HOME/.local/bin/env && uv run uvicorn api:app --host 0.0.0.0 --port $PORT --workers 4"
     envVars:
       - key: PYTHON_VERSION
         value: "3.11"
+      - key: CARGO_HOME
+        value: "/opt/render/project/src/.cargo"
       - key: ENV_MODE
         value: production
       - key: REDIS_HOST
